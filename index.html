@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en-GB">
 
 <head>
@@ -88,6 +88,48 @@
           color: var(--text);
           text-decoration: none;
         }
+/*nav toggle*/
+        .nav-toggle {
+  display: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
+  .nav-inner {
+    flex-wrap: wrap;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  .nav-links a {
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
+
     
         /* Sections */
         section{
@@ -274,7 +316,10 @@
                 <span>Stella Williams</span>
 
             </div>
-            <nav class="nav-links" aria-label="Primary navigation">
+<button class="nav-toggle" aria-label="Toggle navigation">Menu</button>
+
+<nav class="nav-links" aria-label="Primary navigation">
+
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
                 <a href="#work">Projects</a>
@@ -745,6 +790,19 @@
   renderPage();
 })();
 
+// toggle nav
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+
+  toggle.addEventListener('click', () => {
+    links.classList.toggle('open');
+  });
+ // auto close nav menu when link clicked
+   document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
 
 
     </script>
