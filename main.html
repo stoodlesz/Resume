@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Let's connect</title>
+    <meta name="description" content="A simple one-page, long-scroll website with image placeholders." />
+
+    <style>
+        :root{
+          --bg: #0b0f14;
+          --panel: rgba(255,255,255,0.06);
+          --panel2: rgba(255,255,255,0.10);
+          --text: rgba(255,255,255,0.88);
+          --muted: rgba(255,255,255,0.65);
+          --line: rgba(255,255,255,0.12);
+          --shadow: 0 18px 60px rgba(0,0,0,0.45);
+          --radius: 18px;
+          --max: 1100px;
+        }
+    
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body{
+          margin: 0;
+          font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+          background: radial-gradient(1200px 900px at 20% 10%, rgba(120,255,210,0.10), transparent 60%),
+                      radial-gradient(900px 700px at 90% 20%, rgba(120,160,255,0.10), transparent 55%),
+                      linear-gradient(180deg, #070a0e, #0b0f14 35%, #070a0e 100%);
+          color: var(--text);
+          line-height: 1.55;
+        }
+    
+        a{ color: inherit; text-decoration: none; }
+        a:hover{ text-decoration: underline; }
+    
+        .container{
+          width: min(var(--max), calc(100% - 32px));
+          margin: 0 auto;
+        }
+    
+        /* Top nav */
+        .nav{
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          backdrop-filter: blur(14px);
+          background: linear-gradient(180deg, rgba(11,15,20,0.85), rgba(11,15,20,0.55));
+          border-bottom: 1px solid var(--line);
+        }
+        .nav-inner{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 0;
+          gap: 12px;
+        }
+        .brand{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 700;
+          letter-spacing: 0.2px;
+        }
+        .dot{
+          width: 10px; height: 10px;
+          border-radius: 999px;
+          background: rgba(106, 255, 113, 0.85);
+          box-shadow: 0 0 0 6px rgba(255,255,255,0.08);
+        }
+        .nav-links{
+          display: flex;
+          gap: 14px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+        .nav-links a{
+          padding: 8px 10px;
+          border-radius: 999px;
+          border: 1px solid transparent;
+          color: var(--muted);
+          font-size: 14px;
+        }
+        .nav-links a:hover{
+          border-color: var(--line);
+          background: rgba(255,255,255,0.04);
+          color: var(--text);
+          text-decoration: none;
+        }
+    
+        /* Sections */
+        section{
+          padding: 84px 0;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .kicker{
+          font-size: 13px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin: 0 0 10px;
+        }
+        h1, h2{
+          margin: 0 0 12px;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+        }
+        h1{ font-size: clamp(34px, 5vw, 58px); }
+        h2{ font-size: clamp(26px, 3.4vw, 40px); }
+        p{
+          margin: 0 0 18px;
+          color: var(--muted);
+          max-width: 70ch;
+        }
+    
+        .grid{
+          display: grid;
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 26px;
+          align-items: start;
+        }
+        @media (max-width: 900px){
+          .grid{ grid-template-columns: 1fr; }
+          section{ padding: 64px 0; }
+        }
+    
+        .card{
+          background: var(--panel);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          overflow: hidden;
+        }
+        .card-pad{ padding: 18px; }
+    
+        /* Placeholder images */
+        .ph{
+          aspect-ratio: 16 / 10;
+          width: 100%;
+          display: grid;
+          place-items: center;
+          border-bottom: 1px solid var(--line);
+          background:
+            linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)),
+            radial-gradient(900px 400px at 20% 10%, rgba(255,255,255,0.08), transparent 60%);
+          position: relative;
+        }
+        .ph::before, .ph::after{
+             display: none;
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.12) 50%, transparent 51%),
+            linear-gradient(-45deg, transparent 49%, rgba(255,255,255,0.12) 50%, transparent 51%);
+          opacity: 0.25;
+          pointer-events: none;
+        }
+        .ph span{
+          font-weight: 600;
+          color: rgba(255,255,255,0.78);
+          padding: 10px 12px;
+          border-radius: 999px;
+          border: 1px solid var(--line);
+          background: rgba(0,0,0,0.18);
+          font-size: 14px;
+        }
+    
+        /* Buttons */
+        .btn-row{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+        .btn{
+          display: inline-flex;
+          align-items: centre;
+          gap: 10px;
+          padding: 10px 14px;
+          border-radius: 999px;
+          border: 1px solid var(--line);
+          background: rgba(255,255,255,0.04);
+          color: var(--text);
+          font-weight: 600;
+          font-size: 14px;
+          text-decoration: none;
+        }
+        .btn:hover{ background: rgba(255,255,255,0.07); text-decoration: none; }
+        .btn.primary{
+          background: rgba(255,255,255,0.14);
+          border-color: rgba(255,255,255,0.20);
+        }
+    
+        /* Lists */
+        .list{
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 10px;
+        }
+        .list li{
+          padding: 12px 12px;
+          border: 1px solid var(--line);
+          border-radius: 14px;
+          background: rgba(255,255,255,0.03);
+          color: var(--muted);
+        }
+        .list b{ color: var(--text); }
+
+        /* Writing */
+        .linkedin-post {
+  display: none;
+}
+    
+        /* Gallery */
+        .gallery{
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: 14px;
+        }
+        .tile{
+          grid-column: span 4;
+          border-radius: 16px;
+          border: 1px solid var(--line);
+          overflow: hidden;
+          background: rgba(255,255,255,0.03);
+          box-shadow: 0 14px 38px rgba(0,0,0,0.35);
+        }
+        .tile .ph{ aspect-ratio: 4 / 3; border-bottom: 1px solid var(--line); }
+        .tile .meta{ padding: 12px; }
+        .tile .meta .t{ font-weight: 700; margin-bottom: 6px; }
+        .tile .meta .d{ color: var(--muted); font-size: 14px; margin: 0; }
+        @media (max-width: 900px){
+          .tile{ grid-column: span 6; }
+        }
+        @media (max-width: 560px){
+          .tile{ grid-column: span 12; }
+        }
+    
+        /* Footer */
+        footer{
+          padding: 40px 0 60px;
+          color: var(--muted);
+        }
+        .footer-grid{
+          display: grid;
+          grid-template-columns: 1fr auto;
+          gap: 12px;
+          align-items: start;
+        }
+        @media (max-width: 700px){
+          .footer-grid{ grid-template-columns: 1fr; }
+        }
+    
+        /* Tiny helper */
+        .muted{ color: var(--muted); }
+        .pill{
+          display: inline-block;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid var(--line);
+          background: rgba(255,255,255,0.03);
+          color: var(--muted);
+          font-size: 13px;
+          margin-right: 8px;
+          margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav">
+        <div class="container nav-inner">
+            <div class="brand">
+                <span class="dot" aria-hidden="true"></span>
+                <span>Stella Williams</span>
+
+            </div>
+            <nav class="nav-links" aria-label="Primary navigation">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#work">Projects</a>
+                <a href="#cv">CV</a>
+                <a href="#writing">Writing</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="home">
+        <!-- HERO -->
+        <section>
+            <div class="container grid">
+                <div>
+                    <p class="kicker">Welcome</p>
+                    <h1>Product Owner with a security and AI research background</h1>
+                    <p>
+                        Product Owner and Project Manager working in SaaS and platform environments, with a strong focus on delivery, structure, and quality. Alongside my professional role, I am completing an MSc in Cyber Security, researching biometric authentication and adversarial
+                        machine learning.
+                    </p>
+
+                    <div class="btn-row">
+                        <a class="btn primary" href="#contact">Contact</a>
+                        <a class="btn" href="#work">See work</a>
+                    </div>
+
+                    <div>
+                        <span class="pill">Product Owner (PSPO I)</span>
+                        <span class="pill">Project management</span>
+                        <span class="pill">MSc Cyber Security (in progress)</span>
+                        <span class="pill">Product</span>
+                        <span class="pill">Design</span>
+                        <span class="pill">Security</span>
+                        <span class="pill">Agile delivery</span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            </aside>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="container grid">
+                <div class="card">
+                    <div class="card-pad">
+                        <p class="kicker">About</p>
+                        <h2>About me</h2>
+                        <p>
+                            I work at the intersection of product delivery, technical systems, and people. My strength is translating complex user, business, and system requirements into clear priorities and executable plans.
+                        </p>
+                        <p>
+                            I have been promoted based on demonstrated product impact and my ability to integrate external development teams so they work seamlessly with internal teams. I communicate comfortably with technical and non-technical stakeholders and care deeply about
+                            building products responsibly.
+                        </p>
+
+                        <ul class="list">
+                            <li><b>Focus:</b> SaaS platforms, product delivery, system design, quality</li>
+                            <li><b>Strength:</b> stakeholder alignment, team coordination, prioritisation</li>
+                            <li><b>Tools:</b> Jira, Confluence, Figma, GitHub, Python, JavaScript</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="ph has-image" role="img" aria-label="Portrait or hero image">
+                        <img src="WorkPhoto.png" alt="Stella Williams portrait" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </div>
+                    <div class="card-pad">
+                        <p class="muted" style="margin:0;">
+                            Nice to meet you!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK -->
+        <section id="work">
+            <div class="container">
+                <p class="kicker">Work</p>
+                <h2>Some of my Projects</h2>
+                <p>
+                    Here are a few links to my github, I mainly work in Python but have built this website myself and have experience in web development too. My main focus is secure development, and using AI with image data sets, but I hope to post some CTF challenges I
+                    make.
+                </p>
+
+                <div class="gallery" style="margin-top: 18px;">
+                    <article class="tile">
+                        <div class="ph has-image" role="img" aria-label="Project image">
+                            <img src="aiauthentication.png" alt="python gane projects" style="width:100%; height:100%; object-fit:cover; display:block;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">Biometric Authentication & Adversarial ML (MSc)</div>
+                            <p class="d">
+                                Research project exploring adversarial attacks on biometric systems. Code available on request due to research sensitivity.
+                            </p>
+
+
+
+                            <li><b>MSc Biometric Security Project</b>
+                                <br><em>Code available on request (research sensitivity)</em></li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="tile">
+
+                        <div class="ph has-image" role="img" aria-label="Project image">
+                            <img src="gamer.png" alt="python gane projects" style="width:100%; height:100%; object-fit:cover; display:block;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">Python learning projects</div>
+                            <p class="d">Small projects focusing on logic, input validation, and secure coding (Rock–Paper–Scissors, Guess Game, Gambling App).</p>
+                            <li><b>Rock Paper Scissors</b>
+                                <br><a href="https://github.com/stoodlesz/RockPaperScissors">GitHub</a></li>
+                            <li><b>Guess Game</b>
+                                <br><a href="https://github.com/stoodlesz/guessgame">GitHub</a></li>
+                            <li><b>PyGamblingApp</b>
+                                <br><a href="https://github.com/stoodlesz/pygamblingapp">GitHub</a></li>
+                        </div>
+                    </article>
+
+                    <article class="tile">
+                        <div class="ph has-image" role="img" aria-label="Project image">
+                            <img src="authentication.png" alt="python gane projects" style="width:100%; height:100%; object-fit:cover; display:block;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">Authentication experiments</div>
+                            <p class="d">Experimental work around authentication logic and access control concepts.</p>
+                            <li><b>Queens Authentication</b>
+                                <br><a href="https://github.com/stoodlesz/queens_authentication">GitHub</a></li>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="cv">
+            <div class="container">
+                <p class="kicker">CV</p>
+                <h2>Curriculum Vitae</h2>
+
+                <details>
+                    <summary><b>View CV (English)</b></summary>
+
+                    <p><b>Stella Williams — Product Owner</b>
+                        <br> Neustadt an der Weinstraße, Germany
+                        <br> Email: stella.williams286@gmail.com</p>
+
+                    <h3>Profile</h3>
+                    <p>
+                        Experienced Product Owner with a strong focus on the development and evolution of digital products in complex B2B, SaaS and platform environments. Proven ability to translate user, business and system needs into prioritised roadmaps and actionable backlogs.
+                        Promoted based on demonstrated product impact and coordination capability.
+                    </p>
+
+                    <h3>Professional Experience</h3>
+                    <p><b>Professional Product Owner - matelso GmbH</b>
+                        <br> October 2025 – Present</p>
+                    <ul class="list">
+                        <li>Ownership of multiple digital product areas within a SaaS platform</li>
+                        <li>Owning feature development from start to end</li>
+                        <li>Utilising my skills in Figma and UX design to help Frontend teams</li>
+                        <li>Organising UX workshops and UX labs as I believe in user experience!</li>
+                        <li>Leading quality assurance from day 1, and each development stage</li>
+                        <li>Translation of business and user needs into structured roadmaps and backlogs</li>
+                        <li>Coordination of internal and external engineering teams</li>
+                        <li>Ensuring quality across development, integration and production</li>
+                    </ul>
+                    <br>
+                    <p><b>Product Owner — matelso GmbH</b>
+                        <br> July 2024 – September 2025</p>
+
+                    <p><b>Product Owner — Kaplan</b>
+                        <br> August 2021 – July 2024</p>
+
+                    <h3>Education</h3>
+                    <ul class="list">
+                        <li>MSc Cyber Security — University of Essex (in progress)</li>
+                        <li>BSc (Hons) Chemistry — Heriot-Watt University</li>
+                        <li>Computing with Web Design — Edinburgh Napier University</li>
+                    </ul>
+                </details>
+            </div>
+        </section>
+
+
+        <!-- SERVICES -->
+        <section id="services">
+            <div class="container grid">
+                <div>
+                    <p class="kicker">Services</p>
+                    <h2>My Skills: technical & non technical</h2>
+                    <p>
+                        I work best in environments where clarity, delivery, and trust matter. My role is not just to define what should be built, but to ensure it is understood, delivered, and maintained responsibly. Below are the areas where I consistently add value.
+                    </p>
+
+                    <ul class="list">
+                        <li><b>Product & delivery:</b> product ownership, backlog management, agile delivery: translating complex business, user, and technical needs into clear, prioritised requirements and actionable backlogs.</li>
+                        <li><b>Programming:</b> Python, JavaScript, HTML, CSS</li>
+                        <li><b>Security:</b> secure coding, authentication, adversarial ML awareness</li>
+                        <li><b>Design:</b> Figma, prototyping, Adobe Creative Suite</li>
+                        <li>
+                            <b>Delivery leadership & coordination:</b> aligning internal and external teams, maintaining momentum, and ensuring work moves smoothly from idea to production.
+                        </li>
+                        <li>
+                            <b>Quality, risk & responsibility:</b> applying a testing mindset, security awareness, and ethical consideration - particularly in AI-enabled systems.
+                        </li>
+                    </ul>
+
+
+                    <div class="btn-row">
+                        <a class="btn" href="#contact">Get in touch</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <a href="https://www.linkedin.com/in/stella-williams94/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noopener" style="text-decoration:none;">
+
+                        <div class="ph" role="img" aria-label="LinkedIn testimonials">
+                            <img src="linkedin.png" alt="LinkedIn testimonials" style="
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          display:block;
+        ">
+                        </div>
+                    </a>
+
+                    <div class="card-pad">
+                        <p class="muted" style="margin:0;">
+                            Recommendations from colleagues on LinkedIn.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WRITING -->
+<section id="writing">
+    
+  <div class="container">
+    <p class="kicker">Writing</p>
+    <h2>LinkedIn posts & technical reflections</h2>
+    <p>
+      Short-form writing on product, AI, biometrics, security, and ethical technology.
+      Selected posts are shown below.
+    </p>
+
+    <div class="gallery" id="linkedin-posts">
+      <!-- Post 1 -->
+      <article class="tile linkedin-post">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7419314371002195968?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="tile linkedin-post">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7394686213653409793?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="tile linkedin-post">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7388710135201689601?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 4 -->
+      <article class="tile linkedin-post hidden">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7381444206885621761?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 5 -->
+      <article class="tile linkedin-post hidden">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7375260392467513344?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 6 -->
+      <article class="tile linkedin-post hidden">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7371313250438639616?collapsed=1"
+                  width="100%" height="260" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+
+      <!-- Post 7 -->
+      <article class="tile linkedin-post hidden">
+        <div class="card-pad">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7369996500824920064?collapsed=1"
+                  width="100%" height="320" frameborder="0" allowfullscreen
+                  title="LinkedIn post"></iframe>
+        </div>
+      </article>
+    </div>
+
+<div class="btn-row" style="margin-top: 24px;">
+  <button class="btn" id="prev-posts" disabled>Previous</button>
+  <button class="btn" id="next-posts">Next</button>
+  <a class="btn" href="https://www.linkedin.com/in/stella-williams94/recent-activity/all/"
+     target="_blank" rel="noopener">
+    View all on LinkedIn
+  </a>
+</div>
+
+  </div>
+</section>
+
+
+        <!-- GALLERY -->
+        <section id="gallery">
+            <div class="container">
+                <p class="kicker">Gallery</p>
+                <h2>Meet me!</h2>
+                <p>
+                    Here are some photos of me doing what I love.
+                </p>
+
+                <div class="gallery" style="margin-top: 18px;">
+                    <div class="tile">
+                        <div class="ph">
+                            <img src="IMG20250601193930.jpg" alt="Trail race finish in Paris" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">MaXi Race 2025 Annecy, France</div>
+                            <p class="d">44km Race in Annecy with 2365m of elevation - my absolute favourite race of all time. Definitely the most challenging on paper, but the most enjoyable race I have ever experiences, really well organised and I felt fresh as
+                                a daisy at the end. Which, believe me, surprised me too!</p>
+                        </div>
+                    </div>
+
+
+                    <div class="tile">
+                        <div class="ph">
+                            <img src="PXL_20230902_141830413.jpg" alt="Trail race in North of Sweden" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">High Coast Trail 2023 Sweden</div>
+                            <p class="d">42km Race in the North of Sweden with 1600m of elevation - my first ever trail race, amazing country.</p>
+                        </div>
+                    </div>
+
+                    <div class="tile">
+                        <div class="ph">
+                            <img src="PXL_20240316_164636413.jpg" alt="Trail race finish in Paris" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
+                        <div class="meta">
+                            <div class="t">Ecotrail 2024 Paris</div>
+                            <p class="d">45km Race in Paris with 800m of elevation - hard but a really good time.</p>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="container grid">
+                <div>
+                    <p class="kicker">Contact</p>
+                    <h2>Let’s talk</h2>
+                    <p>
+                        Email me, let's catch up, or add me on linkedIn to keep in contact.
+                    </p>
+
+                    <ul class="list">
+                        <li><b>LinkedIn:</b> <a href="www.linkedin.com/in/stella-williams94"> View my profile and <b>let's connect</b></a>.
+                            <li><b>Location:</b> Neustadt an der Weinstraße, Germany (remote-friendly), with British Citizenship</li>
+                    </ul>
+
+                    <div class="btn-row">
+                        <a class="btn primary" href="mailto:stella.williams286@gmail.com">Email me</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-pad">
+                        <h3 style="margin:0 0 10px; font-size: 18px;">What I am up to now!</h3>
+                        <p class="muted" style="margin:0 0 12px;">
+                            Currently I am working on my thesis for my Cybersecurity Masters! Connect with me to find out more about Biometric Authentication and Adversarial Machine Learning.
+                        </p>
+                        <div class="ph has-image" style="aspect-ratio: 16 / 9; border-radius: 14px; border: 1px solid var(--line);">
+                            <img src="studying.png" alt="Abstract background" style="width:100%; height:100%; object-fit:cover; display:block;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="muted">
+                © <span id="year"></span> Stella Williams
+            </div>
+            <div class="muted">
+                <a class="btn" href="#home">Back to top</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+
+(function () {
+  const posts = Array.from(document.querySelectorAll(".linkedin-post"));
+  const prevBtn = document.getElementById("prev-posts");
+  const nextBtn = document.getElementById("next-posts");
+
+  const PAGE_SIZE = 3;
+  let page = 0;
+
+  function renderPage() {
+    posts.forEach(p => p.style.display = "none");
+
+    const start = page * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+
+    posts.slice(start, end).forEach(p => {
+      p.style.display = "block";
+    });
+
+    // Button state
+    prevBtn.disabled = page === 0;
+    nextBtn.disabled = end >= posts.length;
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (page > 0) {
+      page--;
+      renderPage();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if ((page + 1) * PAGE_SIZE < posts.length) {
+      page++;
+      renderPage();
+    }
+  });
+
+  // Initial render
+  renderPage();
+})();
+
+
+
+    </script>
+</body>
+
+</html>
